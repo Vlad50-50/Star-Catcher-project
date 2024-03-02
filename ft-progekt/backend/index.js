@@ -55,32 +55,26 @@ let key = generateKey();
 fs.writeFileSync(privateKeyPath, key);
 
 function addJoke(req, res) {
-    if (req.headers["apikey"] == key) {
-        let data = "";
-        req.on("data", (chunk) => {
-            data += chunk;
-        })
-        req.on("end", () => {
-            let dir = fs.readdirSync(dataPath);
-            let joke = JSON.parse(data);
-            console.log(joke);
-            joke.id = dir.length + 1;
-            joke.likes = 0;
-            joke.dislikes = 0;
-            let filename = dir.length + ".json";
-            let filePath = path.join(dataPath, filename);
-            fs.writeFileSync(filePath, JSON.stringify(joke));
-            res.writeHead(201, "Created", { "Content-type": "application/json" });
-            res.end(JSON.stringify(joke));
-            console.log("New data");
-        })
-    } else {
-        res.writeHead(403, "Access denied", {"Content-type": "application/json"});
-        res.end(JSON.stringify({
-            "error": "Api key is not valid"
-        }))
-    }
+    let data = "";
+    req.on("data", (chunk) => {
+        data += chunk;
+    });
+    req.on("end", () => {
+        let dir = fs.readdirSync(dataPath);
+        let joke = JSON.parse(data);
+        console.log(joke);
+        joke.id = dir.length + 1;
+        joke.likes = 0;
+        joke.dislikes = 0;
+        let filename = dir.length + ".json";
+        let filePath = path.join(dataPath, filename);
+        fs.writeFileSync(filePath, JSON.stringify(joke));
+        res.writeHead(201, "Created", { "Content-type": "application/json" });
+        res.end(JSON.stringify(joke));
+        console.log("New data");
+    });
 }
+
 
 function generateKey() {
     return crypto.randomBytes(4).toString("hex");
