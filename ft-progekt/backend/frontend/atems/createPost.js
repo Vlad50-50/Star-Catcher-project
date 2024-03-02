@@ -18,11 +18,9 @@ function createPost(){
     createBTN.addEventListener("click", (event) => {
         event.preventDefault();
         let content = document.getElementById('createTextArea').value;
-        let token = '1d40006d';
         let xhr = new XMLHttpRequest();
         xhr.open("POST", "http://127.0.0.1:3000/posts");
         xhr.responseType = "json";
-        xhr.setRequestHeader("apikey", token);
         let joke = JSON.stringify({
             "content": content,
             "username":parseAccount.username
