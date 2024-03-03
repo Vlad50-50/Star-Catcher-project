@@ -130,7 +130,7 @@ function PM(){
 function redirectToliFriends(){
     document.title= "Your Friends";
     canvas.innerHTML = `
-        <div class="imsorry" style="font-size: 45px;"><p>(ノへ￣、)</p><p class="imsorryText">This side in the development</p></div>
+        <div class="imsorry" style="font-size: 45px;"><p>(ノへ￣、)</p><p class="imsorryText">There is no such thing</p></div>
     `;
 }
 
