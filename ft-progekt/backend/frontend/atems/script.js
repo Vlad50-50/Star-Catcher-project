@@ -1,4 +1,4 @@
-if(localStorage.getItem("user_data") == null){
+if(localStorage.getItem("user_data") == null && localStorage.getItem("account_data") == null){
     window.location.href = "../login/login.html";
 }
 
@@ -55,37 +55,40 @@ function createPostPage(){
 function createPost(){
     let account = localStorage.getItem("account_data");
     let parseAccount = JSON.parse(account);
-
     let createBTN = document.getElementById("createBTN");
-    createBTN.addEventListener("click", (event) => {
-        event.preventDefault();
-        let content = document.getElementById('createTextArea').value;
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://127.0.0.1:3000/posts");
-        xhr.responseType = "json";
-        let joke = JSON.stringify({
-            "content": content,
-            "username":parseAccount.username,
-            "photo":parseAccount.photo
+    // if(parseAccount == null){
+        createBTN.addEventListener("click", (event) => {
+            event.preventDefault();
+            let content = document.getElementById('createTextArea').value;
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://127.0.0.1:3000/posts");
+            xhr.responseType = "json";
+            let joke = JSON.stringify({
+                "content": content,
+                "username":parseAccount.username,
+                "photo":parseAccount.photo
+            })
+            xhr.send(joke);
+            xhr.onload = () => {
+                if (xhr.status == 201) {
+                    console.log(xhr.response);
+                    render();
+                    event.target.reset();
+                }
+                if (xhr.status == 403) { 
+                   console.error(xhr.response.error);
+                }
+            }
+            console.log(content);
         })
-        xhr.send(joke);
-        xhr.onload = () => {
-            if (xhr.status == 201) {
-                console.log(xhr.response);
-                render();
-                event.target.reset();
-            }
-            if (xhr.status == 403) { 
-               console.error(xhr.response.error);
-            }
-        }
-        console.log(content);
-    })
+    // }else{
+    //     console.log("zarega");
+    // }
 }
 
 function redirectToAccount(){
-    document.title = "☻ Your Account ☻";
     let acount = JSON.parse(localStorage.getItem("account_data"));
+    document.title = "☻ Your Account ☻";
     canvas.innerHTML = `
     <div class="viewBox">
         <div class="photo">
@@ -98,7 +101,7 @@ function redirectToAccount(){
             <input class="inptyles" style="margin-left: 35px; width: 170px;" type="text" id="textToName" placeholder="Text to change name.">
             <input onclick="TexttoProfile()" class="inptyles" style="width: 50px; cursor: pointer;" value ="Enter">
         </div>
-       
+    
     </div>
     `
 }
@@ -130,7 +133,7 @@ function PM(){
 function redirectToliFriends(){
     document.title= "Your Friends";
     canvas.innerHTML = `
-        <div class="imsorry" style="font-size: 45px;"><p>(ノへ￣、)</p><p class="imsorryText">There is no such thing</p></div>
+        <div class="imsorry" style="font-size: 45px;"><p>(ノへ￣、)</p><p class="imsorryText">This side in the development</p></div>
     `;
 }
 
