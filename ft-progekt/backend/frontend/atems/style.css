@@ -1,3 +1,7 @@
+* {
+    padding: 0;
+    margin: 0;
+}
 body {
     background-color: rgb(35, 36, 39);
     padding: 0;
@@ -132,4 +136,45 @@ input:focus {
 
 .hidden {
     display: none;
+}
+
+.viewBox {
+    display: flex;
+    flex-direction: column;
+}
+
+.img {
+    background-color: black;
+    height: 30px;
+    width: 30px;
+    border-radius: 100%;
+}
+
+.photo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    padding-bottom: 10px;
+}
+
+.pink {
+    animation: marquee 5s linear infinite!important;
+}
+@keyframes marquee {
+    0%   {background-color: rgb(255, 0, 217);} 
+    10%   {background-color: rgb(197, 0, 108);} 
+    30%   {background-color: rgb(204, 0, 255);} 
+    50%   {background-color: rgb(149, 0, 255);} 
+    70%   {background-color: rgb(255, 0, 144);} 
+    100%   {background-color: rgb(255, 0, 72);} 
+}
+
+.imsorry {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.imsorryText {
+    font-size: 15px;
 }

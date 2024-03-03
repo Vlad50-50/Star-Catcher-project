@@ -13,9 +13,9 @@ let server = http.createServer((req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     if (req.method == "OPTIONS") {
         res.writeHead(200, {
-            "Access-Control-Allow-Origin": "*", // REQUIRED CORS HEADER
-            "Access-Control-Allow-Methods": "GET, POST, DELETE, PUT, PATCH", // REQUIRED CORS HEADER
-            "Access-Control-Allow-Headers": "Origin, apikey, X-Requested-With, Content-Type, Accept" // REQUIRED CORS HEADER
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, DELETE, PUT, PATCH", 
+            "Access-Control-Allow-Headers": "Origin, apikey, X-Requested-With, Content-Type, Accept"
         });
         res.end();
     }
@@ -50,9 +50,6 @@ function getAllJokes(req, res) {
     res.writeHead(200, "OK", { "Content-type": "application/json" });
     res.end(JSON.stringify(getAll()));
 }
-let privateKeyPath = path.join(__dirname, "private.key");
-let key = generateKey();
-fs.writeFileSync(privateKeyPath, key);
 
 function addJoke(req, res) {
     let data = "";
@@ -73,11 +70,6 @@ function addJoke(req, res) {
         res.end(JSON.stringify(joke));
         console.log("New data");
     });
-}
-
-
-function generateKey() {
-    return crypto.randomBytes(4).toString("hex");
 }
 
 function likeDislike(req, res) {
@@ -103,3 +95,32 @@ function likeDislike(req, res) {
 server.listen(port);
 console.log(host + port);
 
+
+
+// const nodemailer = require('nodemailer');
+
+// // Создаем объект транспортера
+// const transporter = nodemailer.createTransport({
+//   service: 'gmail',
+//   auth: {
+//     user: 'your_email@gmail.com',
+//     pass: 'your_email_password'
+//   }
+// });
+
+// // Определяем параметры письма
+// const mailOptions = {
+//   from: 'your_email@gmail.com',
+//   to: 'recipient_email@example.com',
+//   subject: 'Test Email',
+//   text: 'Hello, this is a test email from Node.js!'
+// };
+
+// // Отправляем письмо
+// transporter.sendMail(mailOptions, function(error, info){
+//   if (error) {
+//     console.error(error);
+//   } else {
+//     console.log('Email sent: ' + info.response);
+//   }
+// });
