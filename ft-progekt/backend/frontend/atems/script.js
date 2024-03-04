@@ -18,10 +18,8 @@ function render() {
     xhr.open("GET", "http://127.0.0.1:3000/posts");
     xhr.responseType = "json";
     xhr.send();
-
     xhr.onload = () => {
         let contentElement = document.getElementById("data");
-
         for (const content of xhr.response.reverse()) {
             contentElement.insertAdjacentHTML('beforeend', `
                 <div class="post">
@@ -30,20 +28,30 @@ function render() {
                         <div class="user-name">${content.username}</div>
                     </div>
                     <div class="user-content">${content.content}</div>
-                    <p class="coment" onclick="alert('Не кликай на меня больше мне больно')">Coments</p>
+                        <div class ="likeDislike">
+                            <button class="btn btn-primary likedislike" id="like_${content.id}">
+                                <svg width="100px" height="100px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8 10V20M8 10L4 9.99998V20L8 20M8 10L13.1956 3.93847C13.6886 3.3633 14.4642 3.11604 15.1992 3.29977L15.2467 3.31166C16.5885 3.64711 17.1929 5.21057 16.4258 6.36135L14 9.99998H18.5604C19.8225 9.99998 20.7691 11.1546 20.5216 12.3922L19.3216 18.3922C19.1346 19.3271 18.3138 20 17.3604 20L8 20" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>   
+                                <span class="badge text-bg-danger ms-2">${content.likes}</span>
+                            </button>
+                                <button class="btn btn-secondary likedislike"id="dislike_${content.id}">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8 14V4M8 14L4 14V4.00002L8 4M8 14L13.1956 20.0615C13.6886 20.6367 14.4642 20.884 15.1992 20.7002L15.2467 20.6883C16.5885 20.3529 17.1929 18.7894 16.4258 17.6387L14 14H18.5604C19.8225 14 20.7691 12.8454 20.5216 11.6078L19.3216 5.60779C19.1346 4.67294 18.3138 4.00002 17.3604 4.00002L8 4" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                            <span class="badge text-bg-danger ms-2">${content.dislikes}</span>
+                            </button>
+                        </div>
                 </div>
             `);
         }
+        let buttons = document.getElementsByClassName("likedislike");
+        Array.from(buttons).forEach((btn) => {
+            btn.addEventListener("click", likeDislike);
+        })
     }
-
-
 }
 
 render();
 
 function createPostPage(){
     document.title = "Creating Post";
-
     canvas.innerHTML = `
     <div class="input-container">
     <input id="createTextArea" class="inptyles" type="text" placeholder="Insert the body of the post">
@@ -56,7 +64,6 @@ function createPost(){
     let account = localStorage.getItem("account_data");
     let parseAccount = JSON.parse(account);
     let createBTN = document.getElementById("createBTN");
-    // if(parseAccount == null){
         createBTN.addEventListener("click", (event) => {
             event.preventDefault();
             let content = document.getElementById('createTextArea').value;
@@ -81,9 +88,6 @@ function createPost(){
             }
             console.log(content);
         })
-    // }else{
-    //     console.log("zarega");
-    // }
 }
 
 function redirectToAccount(){
@@ -137,16 +141,15 @@ function redirectToliFriends(){
     `;
 }
 
-//Забитая функция
-// function likeDislike() {
-//     let elementId = this.id;
-//     let obj = elementId.split("_"); // ["like", 3], ["dislike", 3]
-//     let title = obj[0]; // like or dislike
-//     let jokeId = obj[1]; // some id -> 1, 2, 3, 4, 5
-//     let xhr = new XMLHttpRequest();
-//     xhr.open("GET", `http://127.0.0.1:3000/${title}?id=${jokeId}`);
-//     xhr.send();
-//     xhr.onload = () => {
-//         render();
-//     }
-// }
+function likeDislike() {
+    let elementId = this.id;
+    let obj = elementId.split("_"); 
+    let title = obj[0]; 
+    let jokeId = obj[1];
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", `http://127.0.0.1:3000/${title}?id=${jokeId}`);
+    xhr.send();
+    xhr.onload = () => {
+        render();
+    }
+}

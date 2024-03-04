@@ -1,5 +1,3 @@
-// npm init
-// npm i nodemon
 let path = require("path");
 let fs = require("fs");
 let http = require("http");
@@ -94,33 +92,3 @@ function likeDislike(req, res) {
 
 server.listen(port);
 console.log(host + port);
-
-
-
-// const nodemailer = require('nodemailer');
-
-// // Создаем объект транспортера
-// const transporter = nodemailer.createTransport({
-//   service: 'gmail',
-//   auth: {
-//     user: 'your_email@gmail.com',
-//     pass: 'your_email_password'
-//   }
-// });
-
-// // Определяем параметры письма
-// const mailOptions = {
-//   from: 'your_email@gmail.com',
-//   to: 'recipient_email@example.com',
-//   subject: 'Test Email',
-//   text: 'Hello, this is a test email from Node.js!'
-// };
-
-// // Отправляем письмо
-// transporter.sendMail(mailOptions, function(error, info){
-//   if (error) {
-//     console.error(error);
-//   } else {
-//     console.log('Email sent: ' + info.response);
-//   }
-// });
